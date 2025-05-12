@@ -13,6 +13,7 @@ import Deposit from "./pages/Deposit";
 import Withdraw from "./pages/Withdraw";
 import Referrals from "./pages/Referrals";
 import Settings from "./pages/Settings";
+import NewsFeed from "./pages/NewsFeed";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/withdraw" element={<Withdraw />} />
           <Route path="/referrals" element={<Referrals />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/news-feed" element={<NewsFeed />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

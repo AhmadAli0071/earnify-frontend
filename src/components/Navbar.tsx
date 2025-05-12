@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, LogOut, Home, CheckSquare, CreditCard, ArrowUp, Users, Settings } from "lucide-react";
+import { Menu, X, LogOut, Home, CheckSquare, CreditCard, ArrowUp, Users, Settings, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const isAuthenticated = () => {
@@ -21,6 +21,7 @@ export default function Navbar() {
         { name: "Deposit", path: "/deposit", icon: <CreditCard size={18} /> },
         { name: "Withdraw", path: "/withdraw", icon: <ArrowUp size={18} /> },
         { name: "Referrals", path: "/referrals", icon: <Users size={18} /> },
+        { name: "News Feed", path: "/news-feed", icon: <MessageSquare size={18} /> },
         { name: "Settings", path: "/settings", icon: <Settings size={18} /> },
       ]
     : [
