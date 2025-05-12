@@ -5,8 +5,8 @@ import { Menu, X, LogOut, LayoutDashboard, CheckSquare, CreditCard, ArrowUp, Use
 import { Button } from "@/components/ui/button";
 
 const isAuthenticated = () => {
-  // This would be replaced with actual auth check
-  return false;
+  // For now, we'll return true to always show the authenticated navigation links
+  return true;
 };
 
 export default function Navbar() {
