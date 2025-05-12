@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, LogOut, Home, CheckSquare, CreditCard, ArrowUp, Users, Settings, MessageSquare } from "lucide-react";
+import { Menu, X, LogOut, LayoutDashboard, CheckSquare, CreditCard, ArrowUp, Users, Settings, Newspaper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const isAuthenticated = () => {
@@ -16,16 +16,16 @@ export default function Navbar() {
 
   const navLinks = authenticated
     ? [
-        { name: "Dashboard", path: "/dashboard", icon: <Home size={18} /> },
+        { name: "Dashboard", path: "/dashboard", icon: <LayoutDashboard size={18} /> },
         { name: "Tasks", path: "/tasks", icon: <CheckSquare size={18} /> },
         { name: "Deposit", path: "/deposit", icon: <CreditCard size={18} /> },
         { name: "Withdraw", path: "/withdraw", icon: <ArrowUp size={18} /> },
         { name: "Referrals", path: "/referrals", icon: <Users size={18} /> },
-        { name: "News Feed", path: "/news-feed", icon: <MessageSquare size={18} /> },
+        { name: "News Feed", path: "/news-feed", icon: <Newspaper size={18} /> },
         { name: "Settings", path: "/settings", icon: <Settings size={18} /> },
       ]
     : [
-        { name: "Home", path: "/", icon: <Home size={18} /> },
+        { name: "Home", path: "/", icon: <LayoutDashboard size={18} /> },
         { name: "Login", path: "/login", icon: null },
         { name: "Register", path: "/register", icon: null },
       ];
