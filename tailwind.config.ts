@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -18,6 +19,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['Inter', 'sans-serif'],
+				heading: ['Poppins', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -51,6 +56,13 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
+				},
+				earnify: {
+					blue: '#0EA5E9',
+					green: '#10B981',
+					lightBlue: '#E0F2FE',
+					lightGreen: '#D1FAE5',
+					gray: '#F3F4F6',
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
