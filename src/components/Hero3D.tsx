@@ -2,7 +2,8 @@
 import { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
-import { useGLTF, Float, Environment } from '@react-three/drei';
+import { Float, Environment, Text } from '@react-three/drei';
+import ThreeCanvas from './ThreeCanvas';
 
 function Coin({ position = [0, 0, 0], rotation = [0, 0, 0], scale = 1 }) {
   const mesh = useRef<THREE.Mesh>(null!);
@@ -33,8 +34,17 @@ function Coin({ position = [0, 0, 0], rotation = [0, 0, 0], scale = 1 }) {
           <meshStandardMaterial color="#FFE566" />
         </mesh>
         <mesh position={[0, 0, 0.11]} rotation={[Math.PI/2, 0, 0]}>
-          <textGeometry args={['$', { font: undefined, size: 0.5, height: 0.1 }]} />
-          <meshStandardMaterial color="#D4AF37" />
+          {/* Replace textGeometry with Text from drei */}
+          <Text 
+            color="#D4AF37"
+            fontSize={0.5}
+            maxWidth={0.5}
+            lineHeight={1}
+            letterSpacing={0.02}
+            textAlign="center"
+          >
+            $
+          </Text>
         </mesh>
       </mesh>
     </Float>
@@ -102,8 +112,20 @@ export function Hero3DScene() {
 }
 
 export default function Hero3D() {
+  const [mounted, setMounted] = React.useState(false);
+
+  // This helps with Three.js initialization on client side
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <div className="h-[400px] w-full">
+      {mounted && (
+        <ThreeCanvas autoRotate={true}>
+          <Hero3DScene />
+        </ThreeCanvas>
+      )}
       <div className="absolute inset-0 bg-gradient-to-br from-earnify-blue/10 to-earnify-green/10 backdrop-blur-[2px] z-0"></div>
     </div>
   );

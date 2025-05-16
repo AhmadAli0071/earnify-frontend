@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle, CreditCard, Users, Clock, Shield, Award, Gift } from "lucide-react";
 import { motion } from "framer-motion";
@@ -8,7 +7,7 @@ import TaskCard from "@/components/TaskCard";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import ThreeCanvas from "@/components/ThreeCanvas";
-import { Hero3DScene } from "@/components/Hero3D";
+import Hero3D, { Hero3DScene } from "@/components/Hero3D";
 import Testimonials from "@/components/Testimonials";
 import FeatureCard from "@/components/FeatureCard";
 import { Suspense, useEffect, useState } from "react";
@@ -86,14 +85,7 @@ const Index = () => {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="h-[400px] relative"
             >
-              {mounted && (
-                <Suspense fallback={<div>Loading 3D scene...</div>}>
-                  <ThreeCanvas autoRotate={true}>
-                    <Hero3DScene />
-                  </ThreeCanvas>
-                </Suspense>
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent pointer-events-none"></div>
+              <Hero3D />
             </motion.div>
           </div>
         </div>
