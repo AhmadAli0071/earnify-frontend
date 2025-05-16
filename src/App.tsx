@@ -20,6 +20,7 @@ import NotFound from "./pages/NotFound";
 // Admin Panel Routes
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import UsersManagement from "./pages/Admin/UsersManagement";
+import TaskSubmissions from "./pages/Admin/TaskSubmissions";
 
 const queryClient = new QueryClient();
 
@@ -48,13 +49,14 @@ const App = () => (
             {/* Admin Panel Routes */}
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/users" element={<UsersManagement />} />
-            <Route path="/admin/tasks" element={<AdminDashboard />} />
+            <Route path="/admin/tasks" element={<TaskSubmissions />} />
             <Route path="/admin/deposits" element={<AdminDashboard />} />
             <Route path="/admin/withdrawals" element={<AdminDashboard />} />
             <Route path="/admin/referrals" element={<AdminDashboard />} />
             <Route path="/admin/newsfeed" element={<AdminDashboard />} />
             <Route path="/admin/analytics" element={<AdminDashboard />} />
             <Route path="/admin/packages" element={<AdminDashboard />} />
+            <Route path="/admin/security" element={<AdminDashboard />} />
             
             {/* 404 Route */}
             <Route path="*" element={<NotFound />} />

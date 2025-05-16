@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import Hero3D from "@/components/Hero3D";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { LandingHero } from "@/components/LandingHero";
 
 const Index = () => {
   return (
@@ -87,7 +87,7 @@ const Index = () => {
               className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-purple-500/10"
             >
               <Suspense fallback={<div className="h-[500px] w-full bg-white/5 animate-pulse rounded-2xl"></div>}>
-                <Hero3D />
+                <LandingHero />
               </Suspense>
             </motion.div>
           </div>
