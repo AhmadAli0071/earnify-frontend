@@ -3,8 +3,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AnimatePresence, useIsPresent } from "framer-motion";
+import { useEffect } from "react";
 import Index from "./pages/Index";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
@@ -22,49 +23,145 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import UsersManagement from "./pages/Admin/UsersManagement";
 import TaskSubmissions from "./pages/Admin/TaskSubmissions";
 
+// Protected Route Components
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const userEmail = localStorage.getItem("userEmail");
+  
+  if (!userEmail) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  return <>{children}</>;
+};
+
+const AdminRoute = ({ children }: { children: React.ReactNode }) => {
+  const userEmail = localStorage.getItem("userEmail");
+  
+  if (!userEmail) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  if (userEmail !== "admin@earnify.com") {
+    return <Navigate to="/dashboard" replace />;
+  }
+  
+  return <>{children}</>;
+};
+
+// Main App Component
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <AnimatePresence mode="wait">
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            
-            {/* User Dashboard Routes */}
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/tasks" element={<Tasks />} />
-            <Route path="/deposit" element={<Deposit />} />
-            <Route path="/withdraw" element={<Withdraw />} />
-            <Route path="/referrals" element={<Referrals />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/news-feed" element={<NewsFeed />} />
-            
-            {/* Admin Panel Routes */}
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/users" element={<UsersManagement />} />
-            <Route path="/admin/tasks" element={<TaskSubmissions />} />
-            <Route path="/admin/deposits" element={<AdminDashboard />} />
-            <Route path="/admin/withdrawals" element={<AdminDashboard />} />
-            <Route path="/admin/referrals" element={<AdminDashboard />} />
-            <Route path="/admin/newsfeed" element={<AdminDashboard />} />
-            <Route path="/admin/analytics" element={<AdminDashboard />} />
-            <Route path="/admin/packages" element={<AdminDashboard />} />
-            <Route path="/admin/security" element={<AdminDashboard />} />
-            
-            {/* 404 Route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AnimatePresence>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <AnimatePresence mode="wait">
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<Index />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              
+              {/* User Dashboard Routes - Protected */}
+              <Route path="/dashboard" element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              } />
+              <Route path="/tasks" element={
+                <ProtectedRoute>
+                  <Tasks />
+                </ProtectedRoute>
+              } />
+              <Route path="/deposit" element={
+                <ProtectedRoute>
+                  <Deposit />
+                </ProtectedRoute>
+              } />
+              <Route path="/withdraw" element={
+                <ProtectedRoute>
+                  <Withdraw />
+                </ProtectedRoute>
+              } />
+              <Route path="/referrals" element={
+                <ProtectedRoute>
+                  <Referrals />
+                </ProtectedRoute>
+              } />
+              <Route path="/settings" element={
+                <ProtectedRoute>
+                  <Settings />
+                </ProtectedRoute>
+              } />
+              <Route path="/news-feed" element={
+                <ProtectedRoute>
+                  <NewsFeed />
+                </ProtectedRoute>
+              } />
+              
+              {/* Admin Panel Routes - Admin Protected */}
+              <Route path="/admin" element={
+                <AdminRoute>
+                  <AdminDashboard />
+                </AdminRoute>
+              } />
+              <Route path="/admin/users" element={
+                <AdminRoute>
+                  <UsersManagement />
+                </AdminRoute>
+              } />
+              <Route path="/admin/tasks" element={
+                <AdminRoute>
+                  <TaskSubmissions />
+                </AdminRoute>
+              } />
+              <Route path="/admin/deposits" element={
+                <AdminRoute>
+                  <AdminDashboard />
+                </AdminRoute>
+              } />
+              <Route path="/admin/withdrawals" element={
+                <AdminRoute>
+                  <AdminDashboard />
+                </AdminRoute>
+              } />
+              <Route path="/admin/referrals" element={
+                <AdminRoute>
+                  <AdminDashboard />
+                </AdminRoute>
+              } />
+              <Route path="/admin/newsfeed" element={
+                <AdminRoute>
+                  <AdminDashboard />
+                </AdminRoute>
+              } />
+              <Route path="/admin/analytics" element={
+                <AdminRoute>
+                  <AdminDashboard />
+                </AdminRoute>
+              } />
+              <Route path="/admin/packages" element={
+                <AdminRoute>
+                  <AdminDashboard />
+                </AdminRoute>
+              } />
+              <Route path="/admin/security" element={
+                <AdminRoute>
+                  <AdminDashboard />
+                </AdminRoute>
+              } />
+              
+              {/* 404 Route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AnimatePresence>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

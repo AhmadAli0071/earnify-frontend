@@ -43,15 +43,17 @@ export default function Navbar() {
   const isLandingPage = location.pathname === "/";
 
   // Only show these links after login
-  const authenticatedNavLinks = [
-    { name: "Dashboard", path: "/dashboard", icon: <LayoutDashboard size={18} /> },
-    { name: "Tasks", path: "/tasks", icon: <CheckSquare size={18} /> },
-    { name: "Deposit", path: "/deposit", icon: <CreditCard size={18} /> },
-    { name: "Withdraw", path: "/withdraw", icon: <ArrowUp size={18} /> },
-    { name: "Referrals", path: "/referrals", icon: <Users size={18} /> },
-    { name: "News Feed", path: "/news-feed", icon: <Newspaper size={18} /> },
-    { name: "Settings", path: "/settings", icon: <Settings size={18} /> },
-  ];
+  const authenticatedNavLinks = admin 
+    ? [] // Admin doesn't need these links since they'll be in the admin panel
+    : [
+        { name: "Dashboard", path: "/dashboard", icon: <LayoutDashboard size={18} /> },
+        { name: "Tasks", path: "/tasks", icon: <CheckSquare size={18} /> },
+        { name: "Deposit", path: "/deposit", icon: <CreditCard size={18} /> },
+        { name: "Withdraw", path: "/withdraw", icon: <ArrowUp size={18} /> },
+        { name: "Referrals", path: "/referrals", icon: <Users size={18} /> },
+        { name: "News Feed", path: "/news-feed", icon: <Newspaper size={18} /> },
+        { name: "Settings", path: "/settings", icon: <Settings size={18} /> },
+      ];
   
   // Show these links on landing page only
   const unauthenticatedNavLinks = isLandingPage ? [] : [
@@ -67,6 +69,12 @@ export default function Navbar() {
     toast.success("Logged out successfully");
     window.location.href = "/login";
   };
+
+  // If admin is logged in on a user page, redirect to admin panel
+  if (admin && !location.pathname.startsWith('/admin')) {
+    window.location.href = "/admin";
+    return null;
+  }
 
   return (
     <motion.nav 

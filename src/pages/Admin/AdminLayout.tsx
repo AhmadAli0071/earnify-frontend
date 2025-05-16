@@ -1,5 +1,5 @@
 
-import { ReactNode } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useLocation, Navigate } from "react-router-dom";
 import {
@@ -33,7 +33,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { useState, useEffect } from "react";
 import { toast } from "@/components/ui/sonner";
 
 // For demonstration purposes - in a real app this would be tied to your auth system
@@ -83,6 +82,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const location = useLocation();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [adminUser, setAdminUser] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [notifications, setNotifications] = useState([
     { id: 1, title: "New user registered", time: "2 min ago" },
     { id: 2, title: "Withdrawal request", time: "15 min ago" },
@@ -91,8 +91,32 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   
   useEffect(() => {
     // Check if the user is admin
-    setAdminUser(isAdmin());
+    const checkAdminStatus = () => {
+      const isUserAdmin = isAdmin();
+      setAdminUser(isUserAdmin);
+      setIsLoading(false);
+    };
+    
+    checkAdminStatus();
+    
+    // Add a listener to check if userEmail gets changed
+    const handleStorageChange = () => {
+      checkAdminStatus();
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
+  
+  // If loading, show nothing yet
+  if (isLoading) {
+    return <div className="flex items-center justify-center h-screen bg-gray-950">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+    </div>;
+  }
   
   // If not admin, redirect to login
   if (!adminUser) {

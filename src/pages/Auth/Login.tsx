@@ -39,12 +39,12 @@ const Login = () => {
       
       // Check if this is an admin login
       if (formData.email === "admin@earnify.com") {
-        toast("Admin Login successful", {
+        toast.success("Admin Login successful", {
           description: "Welcome to Earnify Admin Panel",
         });
         navigate("/admin"); // Redirect to admin dashboard
       } else {
-        toast("Login successful", {
+        toast.success("Login successful", {
           description: "Welcome back to Earnify!",
         });
         navigate("/dashboard"); // Redirect to regular user dashboard

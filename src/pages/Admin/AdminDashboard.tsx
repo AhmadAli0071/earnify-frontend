@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -479,13 +480,15 @@ export default function AdminDashboard() {
                 <BarChart3 className="h-5 w-5 text-purple-400" />
                 <span>Performance Analytics</span>
               </CardTitle>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-indigo-400 hover:text-indigo-300"
-              >
-                <Link to="/admin/analytics">View Detailed Analytics</Link>
-              </Button>
+              <Link to="/admin/analytics">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-indigo-400 hover:text-indigo-300"
+                >
+                  View Detailed Analytics
+                </Button>
+              </Link>
             </CardHeader>
             <CardContent className="p-6">
               <div className="h-[300px] flex items-center justify-center">
@@ -498,7 +501,7 @@ export default function AdminDashboard() {
                     <p className="text-gray-500 mt-2">Detailed analytics charts and metrics will be displayed here.</p>
                   </div>
                   <Button className="bg-indigo-600 hover:bg-indigo-700">
-                    View Full Analytics
+                    <Link to="/admin/analytics">View Full Analytics</Link>
                   </Button>
                 </div>
               </div>
