@@ -6,20 +6,12 @@ import PackageCard from "@/components/PackageCard";
 import TaskCard from "@/components/TaskCard";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import ThreeCanvas from "@/components/ThreeCanvas";
-import Hero3D, { Hero3DScene } from "@/components/Hero3D";
+import Hero3D from "@/components/Hero3D";
 import Testimonials from "@/components/Testimonials";
 import FeatureCard from "@/components/FeatureCard";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense } from "react";
 
 const Index = () => {
-  const [mounted, setMounted] = useState(false);
-
-  // This helps with Three.js initialization
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-  
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -85,7 +77,9 @@ const Index = () => {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="h-[400px] relative"
             >
-              <Hero3D />
+              <Suspense fallback={<div className="h-[400px] w-full bg-gradient-to-br from-earnify-blue/10 to-earnify-green/10"></div>}>
+                <Hero3D />
+              </Suspense>
             </motion.div>
           </div>
         </div>

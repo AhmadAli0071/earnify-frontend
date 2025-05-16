@@ -1,3 +1,4 @@
+
 import { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
@@ -33,7 +34,7 @@ function Coin({ position = [0, 0, 0], rotation = [0, 0, 0], scale = 1 }) {
           <meshStandardMaterial color="#FFE566" />
         </mesh>
         <mesh position={[0, 0, 0.11]} rotation={[Math.PI/2, 0, 0]}>
-          {/* Replace textGeometry with Text from drei */}
+          {/* Use Text from drei instead of textGeometry */}
           <Text 
             color="#D4AF37"
             fontSize={0.5}
@@ -84,13 +85,13 @@ function Graph() {
       
       {/* Line graph */}
       <line>
-        <bufferGeometry attach="geometry">
+        <bufferGeometry>
           <float32BufferAttribute 
             attach="attributes-position" 
             args={[new Float32Array([-1.4, 0, 0.7, -0.7, 0.8, 0.7, 0, 0.4, 0.7, 0.7, 1.2, 0.7, 1.4, 0.6, 0.7]), 3]} 
           />
         </bufferGeometry>
-        <lineBasicMaterial attach="material" color="#0EA5E9" linewidth={2} />
+        <lineBasicMaterial color="#0EA5E9" linewidth={2} />
       </line>
     </group>
   );
@@ -118,13 +119,16 @@ export default function Hero3D() {
     setMounted(true);
   }, []);
 
+  if (!mounted) {
+    // Return a placeholder or loading state when not mounted
+    return <div className="h-[400px] w-full bg-gradient-to-br from-earnify-blue/10 to-earnify-green/10"></div>;
+  }
+
   return (
     <div className="h-[400px] w-full">
-      {mounted && (
-        <ThreeCanvas autoRotate={true}>
-          <Hero3DScene />
-        </ThreeCanvas>
-      )}
+      <ThreeCanvas autoRotate={true}>
+        <Hero3DScene />
+      </ThreeCanvas>
       <div className="absolute inset-0 bg-gradient-to-br from-earnify-blue/10 to-earnify-green/10 backdrop-blur-[2px] z-0"></div>
     </div>
   );
