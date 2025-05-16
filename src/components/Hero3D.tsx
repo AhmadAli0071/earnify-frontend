@@ -1,9 +1,9 @@
-
 import { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
-import { useFrame } from '@react-three/fiber';
-import { Float, Environment, Text } from '@react-three/drei';
-import ThreeCanvas from './ThreeCanvas';
+import { Canvas, useFrame } from '@react-three/fiber';
+
+// Import OrbitControls directly from Three.js
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 function Coin({ position = [0, 0, 0], rotation = [0, 0, 0], scale = 1 }) {
   const mesh = useRef<THREE.Mesh>(null!);
@@ -16,38 +16,28 @@ function Coin({ position = [0, 0, 0], rotation = [0, 0, 0], scale = 1 }) {
   });
 
   return (
-    <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
-      <mesh 
-        ref={mesh} 
-        position={position as any} 
-        rotation={rotation as any} 
-        scale={scale}
-      >
-        <cylinderGeometry args={[1, 1, 0.2, 32]} />
-        <meshStandardMaterial 
-          color="#F5D547" 
-          metalness={0.8}
-          roughness={0.3}
-        />
-        <mesh position={[0, 0.11, 0]}>
-          <cylinderGeometry args={[0.8, 0.8, 0.05, 32]} />
-          <meshStandardMaterial color="#FFE566" />
-        </mesh>
-        <mesh position={[0, 0, 0.11]} rotation={[Math.PI/2, 0, 0]}>
-          {/* Use Text from drei instead of textGeometry */}
-          <Text 
-            color="#D4AF37"
-            fontSize={0.5}
-            maxWidth={0.5}
-            lineHeight={1}
-            letterSpacing={0.02}
-            textAlign="center"
-          >
-            $
-          </Text>
-        </mesh>
+    <mesh 
+      ref={mesh} 
+      position={position as any} 
+      rotation={rotation as any} 
+      scale={scale}
+    >
+      <cylinderGeometry args={[1, 1, 0.2, 32]} />
+      <meshStandardMaterial 
+        color="#F5D547" 
+        metalness={0.8}
+        roughness={0.3}
+      />
+      <mesh position={[0, 0.11, 0]}>
+        <cylinderGeometry args={[0.8, 0.8, 0.05, 32]} />
+        <meshStandardMaterial color="#FFE566" />
       </mesh>
-    </Float>
+      {/* Simple text representation instead of Text component */}
+      <mesh position={[0, 0.11, 0]}>
+        <boxGeometry args={[0.4, 0.4, 0.01]} />
+        <meshStandardMaterial color="#D4AF37" />
+      </mesh>
+    </mesh>
   );
 }
 
@@ -82,25 +72,13 @@ function Graph() {
           </mesh>
         );
       })}
-      
-      {/* Line graph */}
-      <line>
-        <bufferGeometry>
-          <float32BufferAttribute 
-            attach="attributes-position" 
-            args={[new Float32Array([-1.4, 0, 0.7, -0.7, 0.8, 0.7, 0, 0.4, 0.7, 0.7, 1.2, 0.7, 1.4, 0.6, 0.7]), 3]} 
-          />
-        </bufferGeometry>
-        <lineBasicMaterial color="#0EA5E9" linewidth={2} />
-      </line>
     </group>
   );
 }
 
-export function Hero3DScene() {
+function Hero3DScene() {
   return (
     <>
-      <Environment preset="city" />
       <ambientLight intensity={0.5} />
       <directionalLight position={[10, 10, 10]} intensity={1} />
       <Coin position={[-2, 0, 0]} scale={0.8} />
@@ -109,6 +87,36 @@ export function Hero3DScene() {
       <Graph />
     </>
   );
+}
+
+// Simple OrbitControls component that uses Three.js OrbitControls directly
+function OrbitControlsImpl({ enableZoom = false, autoRotate = false, autoRotateSpeed = 1 }) {
+  const { gl, camera, invalidate } = useThree();
+  
+  useEffect(() => {
+    const controls = new OrbitControls(camera, gl.domElement);
+    controls.enableZoom = enableZoom;
+    controls.enablePan = false;
+    controls.autoRotate = autoRotate;
+    controls.autoRotateSpeed = autoRotateSpeed;
+    controls.minPolarAngle = Math.PI / 2 - 0.5;
+    controls.maxPolarAngle = Math.PI / 2 + 0.5;
+    
+    // Update the scene when controls change
+    controls.addEventListener('change', invalidate);
+    
+    return () => {
+      controls.removeEventListener('change', invalidate);
+      controls.dispose();
+    };
+  }, [camera, gl, enableZoom, autoRotate, autoRotateSpeed, invalidate]);
+  
+  return null;
+}
+
+// Helper hook to access the Three.js context
+function useThree() {
+  return THREE as any;
 }
 
 export default function Hero3D() {
@@ -125,10 +133,14 @@ export default function Hero3D() {
   }
 
   return (
-    <div className="h-[400px] w-full">
-      <ThreeCanvas autoRotate={true}>
+    <div className="h-[400px] w-full relative">
+      <Canvas
+        camera={{ position: [0, 0, 5], fov: 50 }}
+        style={{ width: '100%', height: '100%' }}
+      >
         <Hero3DScene />
-      </ThreeCanvas>
+        <OrbitControlsImpl enableZoom={false} autoRotate autoRotateSpeed={1} />
+      </Canvas>
       <div className="absolute inset-0 bg-gradient-to-br from-earnify-blue/10 to-earnify-green/10 backdrop-blur-[2px] z-0"></div>
     </div>
   );
