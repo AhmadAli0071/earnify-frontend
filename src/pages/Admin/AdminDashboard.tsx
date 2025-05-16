@@ -1,5 +1,5 @@
-
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -290,7 +290,7 @@ export default function AdminDashboard() {
                       <p className="text-sm font-medium text-gray-400">System Load</p>
                       <p className="text-sm font-medium text-green-400">Healthy</p>
                     </div>
-                    <Progress value={42} className="h-2 bg-gray-800" indicatorClassName="bg-green-500" />
+                    <Progress value={42} className="h-2 bg-gray-800" />
                   </motion.div>
                   
                   <motion.div variants={itemVariants} className="space-y-2">
@@ -298,7 +298,7 @@ export default function AdminDashboard() {
                       <p className="text-sm font-medium text-gray-400">Task Completion Rate</p>
                       <p className="text-sm font-medium text-white">78%</p>
                     </div>
-                    <Progress value={78} className="h-2 bg-gray-800" indicatorClassName="bg-indigo-500" />
+                    <Progress value={78} className="h-2 bg-gray-800" />
                   </motion.div>
                   
                   <motion.div variants={itemVariants} className="space-y-2">
@@ -306,7 +306,7 @@ export default function AdminDashboard() {
                       <p className="text-sm font-medium text-gray-400">User Growth</p>
                       <p className="text-sm font-medium text-white">+12.4%</p>
                     </div>
-                    <Progress value={62} className="h-2 bg-gray-800" indicatorClassName="bg-sky-500" />
+                    <Progress value={62} className="h-2 bg-gray-800" />
                   </motion.div>
                 </CardContent>
               </Card>
