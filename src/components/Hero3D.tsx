@@ -1,8 +1,7 @@
+
 import { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
-import { Canvas, useFrame } from '@react-three/fiber';
-
-// Import OrbitControls directly from Three.js
+import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 function Coin({ position = [0, 0, 0], rotation = [0, 0, 0], scale = 1 }) {
@@ -89,9 +88,9 @@ function Hero3DScene() {
   );
 }
 
-// Simple OrbitControls component that uses Three.js OrbitControls directly
-function OrbitControlsImpl({ enableZoom = false, autoRotate = false, autoRotateSpeed = 1 }) {
-  const { gl, camera, invalidate } = useThree();
+// Custom OrbitControls implementation
+function OrbitControlsComponent({ enableZoom = false, autoRotate = false, autoRotateSpeed = 1 }) {
+  const { gl, camera } = useThree();
   
   useEffect(() => {
     const controls = new OrbitControls(camera, gl.domElement);
@@ -102,21 +101,12 @@ function OrbitControlsImpl({ enableZoom = false, autoRotate = false, autoRotateS
     controls.minPolarAngle = Math.PI / 2 - 0.5;
     controls.maxPolarAngle = Math.PI / 2 + 0.5;
     
-    // Update the scene when controls change
-    controls.addEventListener('change', invalidate);
-    
     return () => {
-      controls.removeEventListener('change', invalidate);
       controls.dispose();
     };
-  }, [camera, gl, enableZoom, autoRotate, autoRotateSpeed, invalidate]);
+  }, [camera, gl, enableZoom, autoRotate, autoRotateSpeed]);
   
   return null;
-}
-
-// Helper hook to access the Three.js context
-function useThree() {
-  return THREE as any;
 }
 
 export default function Hero3D() {
@@ -139,7 +129,7 @@ export default function Hero3D() {
         style={{ width: '100%', height: '100%' }}
       >
         <Hero3DScene />
-        <OrbitControlsImpl enableZoom={false} autoRotate autoRotateSpeed={1} />
+        <OrbitControlsComponent enableZoom={false} autoRotate autoRotateSpeed={1} />
       </Canvas>
       <div className="absolute inset-0 bg-gradient-to-br from-earnify-blue/10 to-earnify-green/10 backdrop-blur-[2px] z-0"></div>
     </div>
