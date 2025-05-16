@@ -1,5 +1,4 @@
-
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { Float, Environment, Text } from '@react-three/drei';
@@ -112,7 +111,7 @@ export function Hero3DScene() {
 }
 
 export default function Hero3D() {
-  const [mounted, setMounted] = React.useState(false);
+  const [mounted, setMounted] = useState(false);
 
   // This helps with Three.js initialization on client side
   useEffect(() => {
