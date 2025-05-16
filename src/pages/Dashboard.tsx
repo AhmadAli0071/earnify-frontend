@@ -9,7 +9,9 @@ import {
   ArrowUp,
   ArrowRight,
   Activity,
-  Bell
+  Bell,
+  Calendar,
+  Zap
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -20,6 +22,14 @@ import Footer from "@/components/Footer";
 import StatCard from "@/components/StatCard";
 import TaskCard from "@/components/TaskCard";
 import { useEffect, useState } from "react";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -32,10 +42,32 @@ const Dashboard = () => {
   }, []);
 
   const statCards = [
-    { title: "Wallet Balance", value: "$12.40", icon: Wallet, color: "blue" },
-    { title: "Total Earned", value: "$42.80", icon: TrendingUp, color: "green", trend: { value: 8, positive: true } },
-    { title: "Withdrawable", value: "$10.00", icon: ArrowUp, color: "blue" },
-    { title: "Referrals", value: "3", icon: Users, color: "green" }
+    { 
+      title: "Wallet Balance", 
+      value: "$12.40", 
+      icon: Wallet, 
+      color: "from-purple-500 to-blue-500", 
+      trend: { value: 8, positive: true } 
+    },
+    { 
+      title: "Total Earned", 
+      value: "$42.80", 
+      icon: TrendingUp, 
+      color: "from-green-500 to-emerald-400", 
+      trend: { value: 8, positive: true } 
+    },
+    { 
+      title: "Withdrawable", 
+      value: "$10.00", 
+      icon: ArrowUp, 
+      color: "from-blue-500 to-indigo-500" 
+    },
+    { 
+      title: "Referrals", 
+      value: "3", 
+      icon: Users, 
+      color: "from-pink-500 to-rose-400" 
+    }
   ];
 
   const sampleTasks = [
@@ -68,32 +100,55 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
       
-      <main className="flex-grow bg-gray-50 py-6">
+      <main className="flex-grow pt-8 pb-16">
         <div className="container mx-auto px-4">
-          <motion.div 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex justify-between items-center mb-6"
-          >
-            <h1 className="text-2xl font-bold font-heading text-gray-800">Dashboard</h1>
-            <div className="flex items-center gap-3">
-              <Button variant="ghost" size="icon" className="relative">
-                <Bell size={18} />
+          {/* Top section with header and notifications */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col"
+            >
+              <h1 className="text-3xl font-bold text-gray-800 font-heading">Dashboard</h1>
+              <p className="text-gray-500">Welcome back, let's continue earning!</p>
+            </motion.div>
+            
+            <div className="flex items-center gap-4">
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="bg-white rounded-full hover:bg-gray-100">
+                      <Calendar className="w-5 h-5 text-gray-700 mr-1" /> Today
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <div className="p-4 w-80">
+                        <h4 className="text-sm font-medium mb-2">Your Calendar</h4>
+                        <p className="text-xs text-gray-500 mb-4">You have 2 tasks scheduled for today</p>
+                        <Button className="w-full" size="sm">View Full Calendar</Button>
+                      </div>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+              
+              <Button variant="outline" size="icon" className="rounded-full relative bg-white border-gray-200">
+                <Bell size={18} className="text-gray-700" />
                 <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
               </Button>
             </div>
-          </motion.div>
+          </div>
           
+          {/* Stats Cards */}
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
               {[1, 2, 3, 4].map((i) => (
-                <Card key={i} className="h-24 animate-pulse bg-white">
+                <Card key={i} className="h-28 animate-pulse">
                   <CardContent className="p-6 flex items-center">
-                    <div className="w-10 h-10 rounded-full bg-gray-200 mr-4"></div>
+                    <div className="w-12 h-12 rounded-full bg-gray-200 mr-4"></div>
                     <div className="flex-1">
                       <div className="h-4 bg-gray-200 rounded w-2/3 mb-2"></div>
                       <div className="h-6 bg-gray-200 rounded w-1/3"></div>
@@ -111,19 +166,30 @@ const Dashboard = () => {
             >
               {statCards.map((stat, index) => (
                 <motion.div key={index} variants={itemVariants}>
-                  <StatCard
-                    title={stat.title}
-                    value={stat.value}
-                    icon={stat.icon}
-                    color={stat.color}
-                    trend={stat.trend}
-                  />
+                  <Card className="border-0 shadow-md overflow-hidden bg-white hover:shadow-lg transition-all duration-300">
+                    <CardContent className="p-6">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-medium text-gray-500 mb-1">{stat.title}</p>
+                          <h3 className="text-2xl font-bold text-gray-800">{stat.value}</h3>
+                          {stat.trend && (
+                            <p className={`text-xs font-medium mt-1 ${stat.trend.positive ? 'text-green-500' : 'text-red-500'}`}>
+                              {stat.trend.positive ? '↑' : '↓'} {stat.trend.value}% from last month
+                            </p>
+                          )}
+                        </div>
+                        <div className={`p-3 rounded-lg bg-gradient-to-br ${stat.color} text-white`}>
+                          <stat.icon size={24} />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
                 </motion.div>
               ))}
             </motion.div>
           )}
           
-          {/* Main Sections */}
+          {/* Main Content Sections */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Daily Tasks */}
             <motion.div 
@@ -132,16 +198,19 @@ const Dashboard = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <Card className="border-0 shadow-sm overflow-hidden bg-white">
-                <CardHeader className="flex flex-row items-center justify-between pb-2 border-b">
+              <Card className="border-0 shadow-md overflow-hidden bg-white">
+                <CardHeader className="flex flex-row items-center justify-between pb-2 border-b bg-gray-50">
                   <div>
-                    <CardTitle className="text-lg font-medium">Daily Tasks</CardTitle>
+                    <CardTitle className="text-lg font-medium flex items-center">
+                      <CheckSquare className="mr-2 h-5 w-5 text-purple-500" />
+                      Daily Tasks
+                    </CardTitle>
                     <CardDescription>Complete tasks to earn daily rewards</CardDescription>
                   </div>
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    className="text-earnify-blue group"
+                    className="text-purple-600 group"
                     onClick={() => navigate('/tasks')}
                   >
                     View All
@@ -167,11 +236,11 @@ const Dashboard = () => {
                     ))}
                   </div>
                 </CardContent>
-                <CardFooter className="flex justify-between border-t pt-4">
+                <CardFooter className="flex justify-between border-t pt-4 bg-gray-50">
                   <div className="text-sm text-gray-600">
-                    <span className="font-medium text-earnify-blue">2/5</span> tasks completed today
+                    <span className="font-medium text-purple-600">2/5</span> tasks completed today
                   </div>
-                  <Progress value={40} className="w-1/2 h-2" />
+                  <Progress value={40} className="w-1/2 h-2" indicatorClassName="bg-gradient-to-r from-purple-500 to-blue-500" />
                 </CardFooter>
               </Card>
             </motion.div>
@@ -182,34 +251,37 @@ const Dashboard = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
             >
-              <Card className="border-0 shadow-sm bg-white h-full">
-                <CardHeader className="border-b">
-                  <CardTitle className="text-lg font-medium">Quick Actions</CardTitle>
+              <Card className="border-0 shadow-md bg-white h-full">
+                <CardHeader className="border-b bg-gray-50">
+                  <CardTitle className="text-lg font-medium flex items-center">
+                    <Zap className="mr-2 h-5 w-5 text-amber-500" />
+                    Quick Actions
+                  </CardTitle>
                   <CardDescription>Access common features</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4 p-4">
                   <Button 
                     variant="outline" 
-                    className="w-full justify-start text-left font-normal hover:border-earnify-blue hover:text-earnify-blue transition-all duration-300"
+                    className="w-full justify-start text-left font-normal hover:border-blue-500 hover:text-blue-600 transition-all duration-300"
                     onClick={() => navigate('/deposit')}
                   >
-                    <CreditCard size={18} className="mr-2 text-earnify-blue" />
+                    <CreditCard size={18} className="mr-2 text-blue-500" />
                     Deposit Funds
                   </Button>
                   <Button 
                     variant="outline" 
-                    className="w-full justify-start text-left font-normal hover:border-earnify-green hover:text-earnify-green transition-all duration-300"
+                    className="w-full justify-start text-left font-normal hover:border-green-500 hover:text-green-600 transition-all duration-300"
                     onClick={() => navigate('/withdraw')}
                   >
-                    <ArrowUp size={18} className="mr-2 text-earnify-green" />
+                    <ArrowUp size={18} className="mr-2 text-green-500" />
                     Withdraw Earnings
                   </Button>
                   <Button 
                     variant="outline" 
-                    className="w-full justify-start text-left font-normal hover:border-earnify-blue hover:text-earnify-blue transition-all duration-300"
+                    className="w-full justify-start text-left font-normal hover:border-pink-500 hover:text-pink-600 transition-all duration-300"
                     onClick={() => navigate('/referrals')}
                   >
-                    <Users size={18} className="mr-2 text-earnify-blue" />
+                    <Users size={18} className="mr-2 text-pink-500" />
                     Invite Friends
                   </Button>
                 </CardContent>
@@ -226,30 +298,30 @@ const Dashboard = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
-              <Card className="border-0 shadow-sm bg-white">
-                <CardHeader className="pb-3 border-b">
+              <Card className="border-0 shadow-md bg-gradient-to-r from-purple-500 to-blue-600 text-white">
+                <CardHeader className="pb-3 border-b border-white/10">
                   <CardTitle className="text-lg font-medium">Your Active Package</CardTitle>
                 </CardHeader>
-                <CardContent className="p-4">
+                <CardContent className="p-6">
                   <div className="flex flex-wrap gap-6 items-center">
                     <div>
-                      <div className="text-3xl font-bold text-gray-800 font-heading">$10</div>
-                      <div className="text-sm text-gray-500">Current package</div>
+                      <div className="text-3xl font-bold font-heading">$10</div>
+                      <div className="text-sm text-white/80">Current package</div>
                     </div>
-                    <div className="w-px h-12 bg-gray-200 hidden sm:block"></div>
+                    <div className="w-px h-12 bg-white/20 hidden sm:block"></div>
                     <div>
-                      <div className="text-lg font-semibold text-earnify-green">$0.40</div>
-                      <div className="text-sm text-gray-500">Daily earnings</div>
+                      <div className="text-lg font-semibold text-green-300">$0.40</div>
+                      <div className="text-sm text-white/80">Daily earnings</div>
                     </div>
-                    <div className="w-px h-12 bg-gray-200 hidden sm:block"></div>
+                    <div className="w-px h-12 bg-white/20 hidden sm:block"></div>
                     <div>
                       <div className="text-lg font-semibold">31 days</div>
-                      <div className="text-sm text-gray-500">Until ROI</div>
+                      <div className="text-sm text-white/80">Until ROI</div>
                     </div>
                     <div className="ml-auto">
                       <Button 
                         onClick={() => navigate('/deposit')}
-                        className="bg-gradient-to-r from-earnify-blue to-earnify-green hover:opacity-90 transition-all duration-300"
+                        className="bg-white hover:bg-gray-100 text-purple-700 transition-all duration-300"
                       >
                         <CreditCard size={18} className="mr-2" />
                         Upgrade Package
@@ -266,17 +338,17 @@ const Dashboard = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.7 }}
             >
-              <Card className="border-0 shadow-sm bg-white h-full">
-                <CardHeader className="border-b">
+              <Card className="border-0 shadow-md bg-white h-full">
+                <CardHeader className="border-b bg-gray-50">
                   <CardTitle className="text-lg font-medium flex items-center">
-                    <Activity size={18} className="mr-2 text-earnify-blue" />
+                    <Activity size={18} className="mr-2 text-purple-500" />
                     Recent Activity
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-0">
                   <ul className="divide-y">
                     {recentActivity.map((item, index) => (
-                      <li key={item.id} className="p-4 hover:bg-gray-50">
+                      <li key={item.id} className="p-4 hover:bg-gray-50 transition-colors duration-200">
                         <div className="flex justify-between items-center">
                           <div>
                             <p className="text-sm font-medium text-gray-800">{item.description}</p>

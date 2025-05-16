@@ -17,9 +17,12 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
+// This is just a placeholder function - in a real app, you'd have actual auth logic
 const isAuthenticated = () => {
-  // For now, we'll return true to always show the authenticated navigation links
-  return true;
+  // For demo purposes, check if we're on any page other than home, login, or register
+  // In a real app, this would check for a valid auth token or user session
+  const path = window.location.pathname;
+  return path !== "/" && path !== "/login" && path !== "/register";
 };
 
 export default function Navbar() {
@@ -38,14 +41,13 @@ export default function Navbar() {
         { name: "Settings", path: "/settings", icon: <Settings size={18} /> },
       ]
     : [
-        { name: "Home", path: "/", icon: <LayoutDashboard size={18} /> },
         { name: "Login", path: "/login", icon: null },
         { name: "Register", path: "/register", icon: null },
       ];
 
   return (
     <motion.nav 
-      className="bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100 sticky top-0 z-50"
+      className={`${authenticated ? 'bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100' : 'bg-transparent'} sticky top-0 z-50`}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -54,29 +56,31 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-2">
             <motion.div 
-              className="h-8 w-8 rounded-full bg-gradient-to-br from-earnify-blue to-earnify-green flex items-center justify-center text-white font-bold text-lg"
+              className={`h-10 w-10 rounded-full ${authenticated ? 'bg-gradient-to-br from-purple-500 to-blue-500' : 'bg-white/10 backdrop-blur-md border border-white/20'} flex items-center justify-center text-white font-bold text-lg`}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
               E
             </motion.div>
-            <span className="font-heading font-bold text-xl text-gray-800">Earnify</span>
+            <span className={`font-heading font-bold text-xl ${authenticated ? 'text-gray-800' : 'text-white'}`}>Earnify</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-2">
+          <div className="hidden md:flex md:items-center md:space-x-3">
             {navLinks.map((link) => (
               <HoverCard key={link.path} openDelay={200} closeDelay={100}>
                 <HoverCardTrigger asChild>
                   <Link
                     to={link.path}
-                    className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
-                      location.pathname === link.path
-                        ? "text-earnify-blue bg-blue-50"
-                        : "text-gray-600 hover:text-earnify-blue hover:bg-gray-50"
+                    className={`flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                      authenticated 
+                        ? (location.pathname === link.path
+                          ? "text-white bg-gradient-to-r from-purple-500 to-blue-500 shadow-md"
+                          : "text-gray-600 hover:bg-gray-100")
+                        : "text-white/90 hover:text-white bg-white/10 hover:bg-white/20 backdrop-blur-md"
                     }`}
                   >
-                    {link.icon && <span className="mr-1.5">{link.icon}</span>}
+                    {link.icon && <span className="mr-2">{link.icon}</span>}
                     {link.name}
                   </Link>
                 </HoverCardTrigger>
@@ -104,7 +108,7 @@ export default function Navbar() {
               variant="ghost"
               size="icon"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-600 hover:text-earnify-blue focus:outline-none"
+              className={`${authenticated ? 'text-gray-600' : 'text-white'} hover:bg-white/10 focus:outline-none`}
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </Button>
@@ -114,7 +118,7 @@ export default function Navbar() {
 
       {/* Mobile Navigation Menu */}
       <motion.div 
-        className={`md:hidden bg-white border-b border-gray-100 pb-4 ${isMenuOpen ? 'block' : 'hidden'}`}
+        className={`md:hidden ${authenticated ? 'bg-white' : 'bg-black/70 backdrop-blur-md'} ${isMenuOpen ? 'block' : 'hidden'}`}
         initial={{ opacity: 0, height: 0 }}
         animate={{ 
           opacity: isMenuOpen ? 1 : 0,
@@ -122,7 +126,7 @@ export default function Navbar() {
         }}
         transition={{ duration: 0.3 }}
       >
-        <div className="container mx-auto px-4 space-y-1">
+        <div className="container mx-auto px-4 py-4 space-y-1">
           {navLinks.map((link, index) => (
             <motion.div
               key={link.path}
@@ -132,10 +136,12 @@ export default function Navbar() {
             >
               <Link
                 to={link.path}
-                className={`flex items-center px-3 py-3 rounded-md text-base font-medium ${
-                  location.pathname === link.path
-                    ? "bg-earnify-lightBlue text-earnify-blue"
-                    : "text-gray-600 hover:bg-gray-50"
+                className={`flex items-center px-4 py-3 rounded-md text-base font-medium ${
+                  authenticated
+                    ? (location.pathname === link.path
+                      ? "bg-purple-50 text-purple-600" 
+                      : "text-gray-600 hover:bg-gray-50")
+                    : "text-white hover:bg-white/10"
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -151,7 +157,7 @@ export default function Navbar() {
               transition={{ delay: 0.1 * navLinks.length, duration: 0.3 }}
             >
               <button
-                className="w-full flex items-center px-3 py-3 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50"
+                className="w-full flex items-center px-4 py-3 rounded-md text-base font-medium text-red-500 hover:bg-red-50"
                 onClick={() => console.log("Logging out")}
               >
                 <LogOut size={20} className="mr-3" />

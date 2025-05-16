@@ -23,18 +23,18 @@ function Coin({ position = [0, 0, 0], rotation = [0, 0, 0], scale = 1 }) {
     >
       <cylinderGeometry args={[1, 1, 0.2, 32]} />
       <meshStandardMaterial 
-        color="#F5D547" 
+        color="#9F7AEA" 
         metalness={0.8}
         roughness={0.3}
       />
       <mesh position={[0, 0.11, 0]}>
         <cylinderGeometry args={[0.8, 0.8, 0.05, 32]} />
-        <meshStandardMaterial color="#FFE566" />
+        <meshStandardMaterial color="#B794F4" />
       </mesh>
       {/* Simple text representation instead of Text component */}
       <mesh position={[0, 0.11, 0]}>
         <boxGeometry args={[0.4, 0.4, 0.01]} />
-        <meshStandardMaterial color="#D4AF37" />
+        <meshStandardMaterial color="#805AD5" />
       </mesh>
     </mesh>
   );
@@ -64,7 +64,7 @@ function Graph() {
           <mesh key={i} position={[-1.2 + i * 0.6, height/2, 0]}>
             <boxGeometry args={[0.4, height, 0.4]} />
             <meshStandardMaterial 
-              color={i % 2 === 0 ? "#0EA5E9" : "#10B981"} 
+              color={i % 2 === 0 ? "#805AD5" : "#3182CE"} 
               transparent
               opacity={0.9}
             />
@@ -119,7 +119,7 @@ export default function Hero3D() {
 
   if (!mounted) {
     // Return a placeholder or loading state when not mounted
-    return <div className="h-[400px] w-full bg-gradient-to-br from-earnify-blue/10 to-earnify-green/10"></div>;
+    return <div className="h-[400px] w-full bg-gradient-to-br from-purple-900/20 to-blue-900/20"></div>;
   }
 
   return (
@@ -131,7 +131,7 @@ export default function Hero3D() {
         <Hero3DScene />
         <OrbitControlsComponent enableZoom={false} autoRotate autoRotateSpeed={1} />
       </Canvas>
-      <div className="absolute inset-0 bg-gradient-to-br from-earnify-blue/10 to-earnify-green/10 backdrop-blur-[2px] z-0"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-blue-900/20 backdrop-blur-[1px] z-0"></div>
     </div>
   );
 }
