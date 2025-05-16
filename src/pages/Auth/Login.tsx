@@ -30,14 +30,25 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate login
+    // For demonstration purposes, store email in localStorage
+    localStorage.setItem("userEmail", formData.email);
+    
+    // Simulate login with a delay
     setTimeout(() => {
       setIsLoading(false);
-      // For demo purposes, always succeed
-      toast("Login successful", {
-        description: "Welcome back to Earnify!",
-      });
-      navigate("/dashboard");
+      
+      // Check if this is an admin login
+      if (formData.email === "admin@earnify.com") {
+        toast("Admin Login successful", {
+          description: "Welcome to Earnify Admin Panel",
+        });
+        navigate("/admin"); // Redirect to admin dashboard
+      } else {
+        toast("Login successful", {
+          description: "Welcome back to Earnify!",
+        });
+        navigate("/dashboard"); // Redirect to regular user dashboard
+      }
     }, 1500);
   };
 
@@ -49,7 +60,7 @@ const Login = () => {
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1">
             <div className="flex justify-center mb-4">
-              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-earnify-blue to-earnify-green flex items-center justify-center text-white font-bold text-xl">
+              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center text-white font-bold text-xl">
                 E
               </div>
             </div>
@@ -75,7 +86,7 @@ const Login = () => {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
-                  <Link to="/forgot-password" className="text-xs text-earnify-blue hover:underline">
+                  <Link to="/forgot-password" className="text-xs text-indigo-600 hover:underline">
                     Forgot password?
                   </Link>
                 </div>
@@ -90,7 +101,7 @@ const Login = () => {
                 />
               </div>
               
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button type="submit" className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 hover:opacity-90" disabled={isLoading}>
                 {isLoading ? "Signing in..." : (
                   <>
                     <LogIn size={18} className="mr-2" />
@@ -134,7 +145,7 @@ const Login = () => {
           <CardFooter className="flex justify-center">
             <p className="text-center text-sm text-gray-600">
               Don't have an account?{" "}
-              <Link to="/register" className="font-medium text-earnify-blue hover:underline">
+              <Link to="/register" className="font-medium text-indigo-600 hover:underline">
                 Sign up
               </Link>
             </p>

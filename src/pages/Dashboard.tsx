@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { 
   Wallet, 
@@ -240,7 +239,7 @@ const Dashboard = () => {
                   <div className="text-sm text-gray-600">
                     <span className="font-medium text-purple-600">2/5</span> tasks completed today
                   </div>
-                  <Progress value={40} className="w-1/2 h-2" indicatorClassName="bg-gradient-to-r from-purple-500 to-blue-500" />
+                  <Progress value={40} className="w-1/2 h-2" />
                 </CardFooter>
               </Card>
             </motion.div>

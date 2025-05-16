@@ -30,20 +30,25 @@ export default function Navbar() {
   const location = useLocation();
   const authenticated = isAuthenticated();
 
-  const navLinks = authenticated
-    ? [
-        { name: "Dashboard", path: "/dashboard", icon: <LayoutDashboard size={18} /> },
-        { name: "Tasks", path: "/tasks", icon: <CheckSquare size={18} /> },
-        { name: "Deposit", path: "/deposit", icon: <CreditCard size={18} /> },
-        { name: "Withdraw", path: "/withdraw", icon: <ArrowUp size={18} /> },
-        { name: "Referrals", path: "/referrals", icon: <Users size={18} /> },
-        { name: "News Feed", path: "/news-feed", icon: <Newspaper size={18} /> },
-        { name: "Settings", path: "/settings", icon: <Settings size={18} /> },
-      ]
-    : [
-        { name: "Login", path: "/login", icon: null },
-        { name: "Register", path: "/register", icon: null },
-      ];
+  // Only show these links after login
+  const authenticatedNavLinks = [
+    { name: "Dashboard", path: "/dashboard", icon: <LayoutDashboard size={18} /> },
+    { name: "Tasks", path: "/tasks", icon: <CheckSquare size={18} /> },
+    { name: "Deposit", path: "/deposit", icon: <CreditCard size={18} /> },
+    { name: "Withdraw", path: "/withdraw", icon: <ArrowUp size={18} /> },
+    { name: "Referrals", path: "/referrals", icon: <Users size={18} /> },
+    { name: "News Feed", path: "/news-feed", icon: <Newspaper size={18} /> },
+    { name: "Settings", path: "/settings", icon: <Settings size={18} /> },
+  ];
+  
+  // Show these links on landing page only
+  const unauthenticatedNavLinks = [
+    { name: "Login", path: "/login", icon: null },
+    { name: "Register", path: "/register", icon: null },
+  ];
+  
+  // Use appropriate nav links based on auth status
+  const navLinks = authenticated ? authenticatedNavLinks : unauthenticatedNavLinks;
 
   return (
     <motion.nav 
@@ -54,9 +59,9 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to={authenticated ? "/dashboard" : "/"} className="flex items-center space-x-2">
             <motion.div 
-              className={`h-10 w-10 rounded-full ${authenticated ? 'bg-gradient-to-br from-purple-500 to-blue-500' : 'bg-white/10 backdrop-blur-md border border-white/20'} flex items-center justify-center text-white font-bold text-lg`}
+              className={`h-10 w-10 rounded-full ${authenticated ? 'bg-gradient-to-br from-violet-600 to-indigo-600' : 'bg-white/10 backdrop-blur-md border border-white/20'} flex items-center justify-center text-white font-bold text-lg`}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -75,7 +80,7 @@ export default function Navbar() {
                     className={`flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                       authenticated 
                         ? (location.pathname === link.path
-                          ? "text-white bg-gradient-to-r from-purple-500 to-blue-500 shadow-md"
+                          ? "text-white bg-gradient-to-r from-violet-600 to-indigo-600 shadow-md"
                           : "text-gray-600 hover:bg-gray-100")
                         : "text-white/90 hover:text-white bg-white/10 hover:bg-white/20 backdrop-blur-md"
                     }`}
@@ -139,7 +144,7 @@ export default function Navbar() {
                 className={`flex items-center px-4 py-3 rounded-md text-base font-medium ${
                   authenticated
                     ? (location.pathname === link.path
-                      ? "bg-purple-50 text-purple-600" 
+                      ? "bg-indigo-50 text-indigo-600" 
                       : "text-gray-600 hover:bg-gray-50")
                     : "text-white hover:bg-white/10"
                 }`}

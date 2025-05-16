@@ -17,6 +17,10 @@ import Settings from "./pages/Settings";
 import NewsFeed from "./pages/NewsFeed";
 import NotFound from "./pages/NotFound";
 
+// Admin Panel Routes
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+import UsersManagement from "./pages/Admin/UsersManagement";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -27,9 +31,12 @@ const App = () => (
       <BrowserRouter>
         <AnimatePresence mode="wait">
           <Routes>
+            {/* Public Routes */}
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            
+            {/* User Dashboard Routes */}
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/tasks" element={<Tasks />} />
             <Route path="/deposit" element={<Deposit />} />
@@ -37,6 +44,19 @@ const App = () => (
             <Route path="/referrals" element={<Referrals />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/news-feed" element={<NewsFeed />} />
+            
+            {/* Admin Panel Routes */}
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/users" element={<UsersManagement />} />
+            <Route path="/admin/tasks" element={<AdminDashboard />} />
+            <Route path="/admin/deposits" element={<AdminDashboard />} />
+            <Route path="/admin/withdrawals" element={<AdminDashboard />} />
+            <Route path="/admin/referrals" element={<AdminDashboard />} />
+            <Route path="/admin/newsfeed" element={<AdminDashboard />} />
+            <Route path="/admin/analytics" element={<AdminDashboard />} />
+            <Route path="/admin/packages" element={<AdminDashboard />} />
+            
+            {/* 404 Route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AnimatePresence>
