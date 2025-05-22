@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { 
   Wallet, 
@@ -48,7 +47,7 @@ const Dashboard = () => {
       icon: Wallet, 
       color: "blue", 
       trend: { value: 8, positive: true },
-      type: "wallet" 
+      type: "wallet" as const
     },
     { 
       title: "Total Earned", 
@@ -56,21 +55,21 @@ const Dashboard = () => {
       icon: TrendingUp, 
       color: "green", 
       trend: { value: 8, positive: true },
-      type: "total" 
+      type: "total" as const
     },
     { 
       title: "Withdrawable", 
       value: "$10.00", 
       icon: ArrowUp, 
       color: "blue",
-      type: "withdrawable" 
+      type: "withdrawable" as const
     },
     { 
       title: "Referrals", 
       value: "3", 
       icon: Users, 
       color: "blue",
-      type: "referrals" 
+      type: "referrals" as const
     }
   ];
 
