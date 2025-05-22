@@ -46,7 +46,7 @@ const Dashboard = () => {
       title: "Wallet Balance", 
       value: "$12.40", 
       icon: Wallet, 
-      color: "from-purple-500 to-blue-500", 
+      color: "blue", 
       trend: { value: 8, positive: true },
       type: "wallet" 
     },
@@ -54,7 +54,7 @@ const Dashboard = () => {
       title: "Total Earned", 
       value: "$42.80", 
       icon: TrendingUp, 
-      color: "from-green-500 to-emerald-400", 
+      color: "green", 
       trend: { value: 8, positive: true },
       type: "total" 
     },
@@ -62,14 +62,14 @@ const Dashboard = () => {
       title: "Withdrawable", 
       value: "$10.00", 
       icon: ArrowUp, 
-      color: "from-blue-500 to-indigo-500",
+      color: "blue",
       type: "withdrawable" 
     },
     { 
       title: "Referrals", 
       value: "3", 
       icon: Users, 
-      color: "from-pink-500 to-rose-400",
+      color: "blue",
       type: "referrals" 
     }
   ];
