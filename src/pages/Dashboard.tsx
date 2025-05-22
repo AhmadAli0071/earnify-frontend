@@ -47,26 +47,30 @@ const Dashboard = () => {
       value: "$12.40", 
       icon: Wallet, 
       color: "from-purple-500 to-blue-500", 
-      trend: { value: 8, positive: true } 
+      trend: { value: 8, positive: true },
+      type: "wallet" 
     },
     { 
       title: "Total Earned", 
       value: "$42.80", 
       icon: TrendingUp, 
       color: "from-green-500 to-emerald-400", 
-      trend: { value: 8, positive: true } 
+      trend: { value: 8, positive: true },
+      type: "total" 
     },
     { 
       title: "Withdrawable", 
       value: "$10.00", 
       icon: ArrowUp, 
-      color: "from-blue-500 to-indigo-500" 
+      color: "from-blue-500 to-indigo-500",
+      type: "withdrawable" 
     },
     { 
       title: "Referrals", 
       value: "3", 
       icon: Users, 
-      color: "from-pink-500 to-rose-400" 
+      color: "from-pink-500 to-rose-400",
+      type: "referrals" 
     }
   ];
 
@@ -119,7 +123,7 @@ const Dashboard = () => {
 
   // Function to navigate to deposit page
   const goToDepositPage = () => {
-    navigate('/deposit');
+    navigate('/packages');
   };
 
   return (
@@ -189,24 +193,14 @@ const Dashboard = () => {
             >
               {statCards.map((stat, index) => (
                 <motion.div key={index} variants={itemVariants}>
-                  <Card className="border-0 shadow-md overflow-hidden bg-white hover:shadow-lg transition-all duration-300">
-                    <CardContent className="p-6">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-sm font-medium text-gray-500 mb-1">{stat.title}</p>
-                          <h3 className="text-2xl font-bold text-gray-800">{stat.value}</h3>
-                          {stat.trend && (
-                            <p className={`text-xs font-medium mt-1 ${stat.trend.positive ? 'text-green-500' : 'text-red-500'}`}>
-                              {stat.trend.positive ? '↑' : '↓'} {stat.trend.value}% from last month
-                            </p>
-                          )}
-                        </div>
-                        <div className={`p-3 rounded-lg bg-gradient-to-br ${stat.color} text-white`}>
-                          <stat.icon size={24} />
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <StatCard 
+                    title={stat.title} 
+                    value={stat.value} 
+                    icon={stat.icon} 
+                    color={stat.color} 
+                    trend={stat.trend} 
+                    type={stat.type}
+                  />
                 </motion.div>
               ))}
             </motion.div>
@@ -290,7 +284,7 @@ const Dashboard = () => {
                     onClick={goToDepositPage}
                   >
                     <CreditCard size={18} className="mr-2 text-blue-500" />
-                    Deposit Funds
+                    Choose Package
                   </Button>
                   <Button 
                     variant="outline" 
@@ -344,7 +338,7 @@ const Dashboard = () => {
                     </div>
                     <div className="ml-auto">
                       <Button 
-                        onClick={() => navigate('/deposit')}
+                        onClick={() => navigate('/packages')}
                         className="bg-white hover:bg-gray-100 text-purple-700 transition-all duration-300"
                       >
                         <CreditCard size={18} className="mr-2" />

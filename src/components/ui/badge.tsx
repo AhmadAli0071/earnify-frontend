@@ -20,6 +20,11 @@ const badgeVariants = cva(
         success: "border-transparent bg-green-500 text-white hover:bg-green-600",
         pending: "border-transparent bg-amber-500 text-white hover:bg-amber-600",
         info: "border-transparent bg-blue-500 text-white hover:bg-blue-600",
+        // New for News Feed
+        update: "border-transparent bg-purple-500 text-white hover:bg-purple-600",
+        tip: "border-transparent bg-indigo-500 text-white hover:bg-indigo-600",
+        alert: "border-transparent bg-rose-500 text-white hover:bg-rose-600",
+        new: "border-transparent bg-emerald-500 text-white hover:bg-emerald-600",
       },
     },
     defaultVariants: {
