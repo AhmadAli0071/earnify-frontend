@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Check, Copy, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,13 +12,13 @@ import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
 
 const packages = [
-  { deposit: 10, dailyEarn: 0.4, tasks: 5 },
-  { deposit: 20, dailyEarn: 0.8, tasks: 5 },
-  { deposit: 50, dailyEarn: 1.5, tasks: 5, featured: true },
-  { deposit: 100, dailyEarn: 3, tasks: 5 },
-  { deposit: 200, dailyEarn: 6, tasks: 5 },
-  { deposit: 500, dailyEarn: 16, tasks: 5 },
-  { deposit: 1000, dailyEarn: 32, tasks: 5 }
+  { deposit: 10, monthlyEarn: 40 },
+  { deposit: 20, monthlyEarn: 80 },
+  { deposit: 50, monthlyEarn: 120 },
+  { deposit: 100, monthlyEarn: 500, featured: true },
+  { deposit: 200, monthlyEarn: 1000 },
+  { deposit: 500, monthlyEarn: 2000, bestValue: true },
+  { deposit: 1000, monthlyEarn: 5000 }
 ];
 
 const Deposit = () => {
@@ -62,37 +61,62 @@ const Deposit = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-grow bg-gray-50 py-6">
+      <main className="flex-grow bg-gray-50 py-10">
         <div className="container mx-auto px-4">
-          <h1 className="text-2xl font-bold font-heading text-gray-800 mb-6">Deposit</h1>
+          <h1 className="text-3xl font-bold font-heading text-gray-800 mb-8 text-center">Select Your Package</h1>
           
           {step === 1 && (
             <>
-              <div className="text-center mb-8">
-                <h2 className="text-xl font-medium mb-2">Select a Package</h2>
-                <p className="text-gray-600">Choose the investment package that suits your budget</p>
+              <div className="text-center mb-10">
+                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                  Choose the investment package that suits your budget and start earning daily rewards by completing simple tasks
+                </p>
               </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {packages.map((pkg, index) => (
                   <PackageCard 
                     key={index}
                     deposit={pkg.deposit}
-                    dailyEarn={pkg.dailyEarn}
-                    tasks={pkg.tasks}
+                    monthlyEarn={pkg.monthlyEarn}
                     featured={pkg.featured}
+                    bestValue={pkg.bestValue}
                     onSelect={() => handlePackageSelect(pkg)}
                   />
                 ))}
               </div>
               
-              <div className="mt-10 bg-white rounded-lg border border-gray-100 p-6">
-                <h3 className="text-lg font-medium mb-4">Package Information</h3>
-                <div className="space-y-3 text-gray-600">
-                  <p>• All packages include 5 daily tasks to complete</p>
-                  <p>• Daily earnings are credited automatically upon task completion</p>
-                  <p>• You can withdraw your earnings anytime</p>
-                  <p>• Packages can be upgraded at any time by making a new deposit</p>
+              <div className="mt-12 bg-white rounded-lg border border-gray-100 p-8 max-w-4xl mx-auto">
+                <h3 className="text-xl font-bold mb-4 text-center">Why Choose Earnify?</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-3 text-gray-600">
+                    <p className="flex items-start">
+                      <span className="text-earnify-blue mr-2">•</span>
+                      Daily earnings through simple microtasks
+                    </p>
+                    <p className="flex items-start">
+                      <span className="text-earnify-blue mr-2">•</span>
+                      Transparent payment system with no hidden fees
+                    </p>
+                    <p className="flex items-start">
+                      <span className="text-earnify-blue mr-2">•</span>
+                      Start with as little as $10 investment
+                    </p>
+                  </div>
+                  <div className="space-y-3 text-gray-600">
+                    <p className="flex items-start">
+                      <span className="text-earnify-blue mr-2">•</span>
+                      Withdraw your earnings anytime with ease
+                    </p>
+                    <p className="flex items-start">
+                      <span className="text-earnify-blue mr-2">•</span>
+                      Earn additional income through referrals
+                    </p>
+                    <p className="flex items-start">
+                      <span className="text-earnify-blue mr-2">•</span>
+                      Upgrade your package at any time for better returns
+                    </p>
+                  </div>
                 </div>
               </div>
             </>
@@ -114,7 +138,7 @@ const Deposit = () => {
                       <div className="mt-2 p-4 bg-gray-50 rounded-lg">
                         <div className="flex justify-between">
                           <span className="font-medium">${selectedPackage.deposit} Package</span>
-                          <span className="text-earnify-green">${selectedPackage.dailyEarn}/day</span>
+                          <span className="text-earnify-green">${selectedPackage.monthlyEarn}/month</span>
                         </div>
                       </div>
                     </div>
