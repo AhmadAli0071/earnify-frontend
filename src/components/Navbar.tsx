@@ -48,7 +48,7 @@ export default function Navbar() {
     : [
         { name: "Dashboard", path: "/dashboard", icon: <LayoutDashboard size={18} /> },
         { name: "Tasks", path: "/tasks", icon: <CheckSquare size={18} /> },
-        { name: "Deposit", path: "/deposit", icon: <CreditCard size={18} /> },
+        { name: "Packages", path: "/deposit", icon: <CreditCard size={18} /> }, // Updated "Deposit" to "Packages"
         { name: "Withdraw", path: "/withdraw", icon: <ArrowUp size={18} /> },
         { name: "Referrals", path: "/referrals", icon: <Users size={18} /> },
         { name: "News Feed", path: "/news-feed", icon: <Newspaper size={18} /> },

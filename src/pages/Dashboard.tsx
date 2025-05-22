@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { 
   Wallet, 
@@ -70,9 +71,27 @@ const Dashboard = () => {
   ];
 
   const sampleTasks = [
-    { id: "task1", title: "Follow @earnify on Instagram", platform: "instagram", completed: false },
-    { id: "task2", title: "Like our Facebook post", platform: "facebook", completed: true },
-    { id: "task3", title: "Retweet our latest announcement", platform: "twitter", completed: false }
+    { 
+      id: "task1", 
+      title: "Follow @earnify on Instagram", 
+      platform: "instagram", 
+      completed: false,
+      estimatedTime: "1-2 min"
+    },
+    { 
+      id: "task2", 
+      title: "Like our Facebook post", 
+      platform: "facebook", 
+      completed: true,
+      estimatedTime: "1 min" 
+    },
+    { 
+      id: "task3", 
+      title: "Retweet our latest announcement", 
+      platform: "twitter", 
+      completed: false,
+      estimatedTime: "2 min"
+    }
   ];
 
   const recentActivity = [
@@ -96,6 +115,11 @@ const Dashboard = () => {
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 }
+  };
+
+  // Function to navigate to deposit page
+  const goToDepositPage = () => {
+    navigate('/deposit');
   };
 
   return (
@@ -230,6 +254,7 @@ const Dashboard = () => {
                           title={task.title}
                           platform={task.platform as any}
                           completed={task.completed}
+                          estimatedTime={task.estimatedTime}
                         />
                       </motion.div>
                     ))}
@@ -262,7 +287,7 @@ const Dashboard = () => {
                   <Button 
                     variant="outline" 
                     className="w-full justify-start text-left font-normal hover:border-blue-500 hover:text-blue-600 transition-all duration-300"
-                    onClick={() => navigate('/deposit')}
+                    onClick={goToDepositPage}
                   >
                     <CreditCard size={18} className="mr-2 text-blue-500" />
                     Deposit Funds
