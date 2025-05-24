@@ -4,8 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AnimatePresence, useIsPresent } from "framer-motion";
-import { useEffect } from "react";
+import { AnimatePresence } from "framer-motion";
 import Index from "./pages/Index";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
@@ -20,8 +19,13 @@ import NotFound from "./pages/NotFound";
 
 // Admin Panel Routes
 import AdminDashboard from "./pages/Admin/AdminDashboard";
-import UsersManagement from "./pages/Admin/UsersManagement";
-import TaskSubmissions from "./pages/Admin/TaskSubmissions";
+import UserManagement from "./pages/Admin/UserManagement";
+import PackageManagement from "./pages/Admin/PackageManagement";
+import DepositManagement from "./pages/Admin/DepositManagement";
+import WithdrawalManagement from "./pages/Admin/WithdrawalManagement";
+import TaskManagement from "./pages/Admin/TaskManagement";
+import NewsfeedManagement from "./pages/Admin/NewsfeedManagement";
+import AdminSettings from "./pages/Admin/AdminSettings";
 
 // Protected Route Components
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -110,30 +114,40 @@ const App = () => {
               } />
               <Route path="/admin/users" element={
                 <AdminRoute>
-                  <UsersManagement />
+                  <UserManagement />
                 </AdminRoute>
               } />
-              <Route path="/admin/tasks" element={
+              <Route path="/admin/packages" element={
                 <AdminRoute>
-                  <TaskSubmissions />
+                  <PackageManagement />
                 </AdminRoute>
               } />
               <Route path="/admin/deposits" element={
                 <AdminRoute>
-                  <AdminDashboard />
+                  <DepositManagement />
                 </AdminRoute>
               } />
               <Route path="/admin/withdrawals" element={
                 <AdminRoute>
-                  <AdminDashboard />
+                  <WithdrawalManagement />
                 </AdminRoute>
               } />
-              <Route path="/admin/referrals" element={
+              <Route path="/admin/tasks" element={
                 <AdminRoute>
-                  <AdminDashboard />
+                  <TaskManagement />
                 </AdminRoute>
               } />
               <Route path="/admin/newsfeed" element={
+                <AdminRoute>
+                  <NewsfeedManagement />
+                </AdminRoute>
+              } />
+              <Route path="/admin/settings" element={
+                <AdminRoute>
+                  <AdminSettings />
+                </AdminRoute>
+              } />
+              <Route path="/admin/referrals" element={
                 <AdminRoute>
                   <AdminDashboard />
                 </AdminRoute>
@@ -143,14 +157,9 @@ const App = () => {
                   <AdminDashboard />
                 </AdminRoute>
               } />
-              <Route path="/admin/packages" element={
-                <AdminRoute>
-                  <AdminDashboard />
-                </AdminRoute>
-              } />
               <Route path="/admin/security" element={
                 <AdminRoute>
-                  <AdminDashboard />
+                  <AdminSettings />
                 </AdminRoute>
               } />
               

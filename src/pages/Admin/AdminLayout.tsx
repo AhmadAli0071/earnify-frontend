@@ -126,13 +126,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const sidebarItems = [
     { icon: <LayoutDashboard size={20} />, label: "Dashboard", path: "/admin" },
     { icon: <Users size={20} />, label: "Users", path: "/admin/users", badge: "8,249" },
+    { icon: <Package size={20} />, label: "Packages", path: "/admin/packages", badge: "5" },
     { icon: <CheckSquare size={20} />, label: "Tasks", path: "/admin/tasks", badge: "24" },
-    { icon: <CreditCard size={20} />, label: "Deposits", path: "/admin/deposits" },
-    { icon: <ArrowUp size={20} />, label: "Withdrawals", path: "/admin/withdrawals", badge: "12" },
+    { icon: <CreditCard size={20} />, label: "Deposits", path: "/admin/deposits", badge: "12" },
+    { icon: <ArrowUp size={20} />, label: "Withdrawals", path: "/admin/withdrawals", badge: "8" },
     { icon: <UserPlus size={20} />, label: "Referrals", path: "/admin/referrals" },
     { icon: <Newspaper size={20} />, label: "News Feed", path: "/admin/newsfeed" },
     { icon: <BarChart3 size={20} />, label: "Analytics", path: "/admin/analytics" },
-    { icon: <Package size={20} />, label: "Packages", path: "/admin/packages" },
+    { icon: <Settings size={20} />, label: "Settings", path: "/admin/settings" },
     { icon: <Shield size={20} />, label: "Security", path: "/admin/security" },
   ];
 
